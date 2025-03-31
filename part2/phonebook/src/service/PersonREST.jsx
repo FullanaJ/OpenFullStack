@@ -10,7 +10,7 @@ const update = (newPerson) =>
 const create = (newPerson) =>
     REST.create(newPerson, basePath)
 
-const eliminate = (id) => 
+const eliminate = (id) =>
     REST.eliminate(id, basePath)
 
 

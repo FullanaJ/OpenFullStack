@@ -19,8 +19,8 @@ const eliminate = (id, path) => {
   const request = axios.delete(createURL(path, id))
   return request.then((response) => response.data)
 }
-const createURL = (...args) => 
-   bd.concat(args.join("/"))
+const createURL = (...args) =>
+  bd.concat(args.join("/"))
 
 
 export default { getAllObjects, create, update, eliminate }

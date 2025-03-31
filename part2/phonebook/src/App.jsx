@@ -45,13 +45,15 @@ const App = () => {
         setPersons(persons.concat(resp))
         makeNotification(`Added ${resp.name}`, false)
       }).catch(
-        makeNotification(`${newName} already exist on server`, TRUE)
+        makeNotification(`${newName} already exist on server`, true)
       )
   }
   const makeNotification = (text, error) => {
     setNotificationMsg(
-      text,
-      error
+      {
+        text,
+        error
+      }
     )
     setTimeout(() => {
       setNotificationMsg(null)
@@ -72,7 +74,7 @@ const App = () => {
     if (window.confirm(`Delete ${name}?`)) {
       const x = persons.filter((p) => p.id !== id)
       PersonREST.eliminate(id).then((resp) => console.log('Delete Response: ', resp))
-      .catch(makeNotification(`Information of ${name} has already been removed from server`,))
+        .catch(makeNotification(`Information of ${name} has already been removed from server`, true))
       setPersons(x)
     }
   }

@@ -3,8 +3,7 @@ const Person = ({ idRef, name, number, handleDelete }) => {
 }
 const Content = ({ persons, onDelete }) =>
     <>
-        {console.log(persons)
-        }
+        {console.log('persons on content:',persons)}
         {persons.map((p) => <Person key={p.id} idRef={p.id} name={p.name} number={p.number} handleDelete={onDelete} />)}
     </>
 
