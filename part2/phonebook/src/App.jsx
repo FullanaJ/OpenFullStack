@@ -18,10 +18,11 @@ const App = () => {
       askToUpdate() :
       createNewPerson()
   }
+  // console.log("new one: ",persons)
 
   const askToUpdate = () => {
-    window.confirm(`${newName} is already added to phonebook,
-       replace the old number with a new one?`) ?
+    window.confirm(
+      `${newName} is already added to phonebook, replace the old number with a new one?`) ?
       updateNumber() : console.log('canceled')
   }
 
@@ -32,7 +33,7 @@ const App = () => {
       setPersons(persons.map((p) => p.name !== newName ? p : personUpdate))
       makeNotification(`Update ${newName}`, false)
     }
-    ).catch()
+    ).catch((error) => makeNotification(`Information of ${person.name} has already been removed from server`, true)).then(getBdData())
   }
 
   const createNewPerson = () => {
@@ -42,9 +43,13 @@ const App = () => {
     }
     PersonREST.create(p)
       .then((resp) => {
-        setPersons(persons.concat(resp))
-        makeNotification(`Added ${resp.name}`, false)
-      }).catch(
+        if (resp.error)
+          makeNotification(resp.error, true)
+        else {
+          setPersons(persons.concat(resp))
+          makeNotification(`Added ${resp.name}`, false)
+        }
+      }).catch((error) =>
         makeNotification(`${newName} already exist on server`, true)
       )
   }
@@ -72,10 +77,10 @@ const App = () => {
 
   const onDelete = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
-      const x = persons.filter((p) => p.id !== id)
+      //const x = persons.filter((p) => p.id !== id)
       PersonREST.eliminate(id).then((resp) => console.log('Delete Response: ', resp))
-        .catch(makeNotification(`Information of ${name} has already been removed from server`, true))
-      setPersons(x)
+        .catch((error) => makeNotification(`Information of ${name} has already been removed from server`, true)).then(() => getBdData())
+      //setPersons(x)      
     }
   }
 
@@ -87,7 +92,13 @@ const App = () => {
     return persons
   }
 
-  useEffect(() => { PersonREST.getAll().then((res) => setPersons(res.data)) }, [])
+  const getBdData = () => {
+    PersonREST.getAll().then((res) => {
+      console.log("getBdData:", res)
+      setPersons(res.data)
+    })
+  }
+  useEffect(() => getBdData(), [])
 
   return (
     <div>

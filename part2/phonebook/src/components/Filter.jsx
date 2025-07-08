@@ -2,7 +2,7 @@ const Filter = ({ filter }) =>
     <>
         <form>
             <div>
-                filter show n with: <input onChange={filter} />
+                filter shown with: <input onChange={filter} />
             </div>
         </form>
     </>
