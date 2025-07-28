@@ -1,6 +1,6 @@
 import REST from "./REST"
 
-const basePath = 'persons'
+const basePath = 'api/persons'
 const getAll = () =>
     REST.getAllObjects(basePath)
 
